@@ -13,6 +13,8 @@ export const RegisterController = WrapValidationHandler(
 export const GetAttendeeByEmailController = WrapValidationHandler(
   async (req: Request, res: Response) => {
     const data = await AttendeeService.getAttendeeByEmail(req.body.email);
-    res.status(data ? 200 : 400).send(data);
+    res.status(data ? 200 : 400).send(data || {
+        message: "User not found",
+    });
   }
 );

@@ -5,7 +5,7 @@ export interface AttendeeSignupPayload {
     attendeeOrg?: string;
     attendeeExperience?: string;
     attendeeLearning?: string;
-    referredBy?: string;
+    refferedBy?: string;
 }
 
 export interface Attendee {

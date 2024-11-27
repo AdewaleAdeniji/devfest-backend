@@ -11,7 +11,7 @@ const attendeeModel = new Schema(
     attendeeExperience: { type: String, required: false },
     attendeeLearning: { type: String, required: false },
     refferalCode: { type: String, required: false },
-    referredBy: { type: String, required: false },
+    refferedBy: { type: String, required: false },
     refferalCount: { type: Number, required: false, default: 0 },
   },
   {

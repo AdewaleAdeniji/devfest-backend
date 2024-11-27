@@ -19,16 +19,19 @@ class AttendeeService {
     const createUser = await AttendeeModel.create(newUser);
     if (createUser) {
       //update the refferal count of the user that referred this user
-      if (user.referredBy) {
+      if (user.refferedBy) {
         const referredByUser = await AttendeeModel.findOne({
-          refferalCode: user.referredBy,
+            refferalCode: user.refferedBy,
         });
         if (referredByUser) {
-          referredByUser.refferalCount =
+          const count =
             (referredByUser.refferalCount || 0) + 1;
-          await referredByUser.save();
+          await AttendeeModel.updateOne({ attendeeID: referredByUser.attendeeID }, {
+            refferalCount: count
+          });
         }
       }
+
       return {
         success: true,
         message: "User has been created successfully",
@@ -45,7 +48,7 @@ class AttendeeService {
     const user = await AttendeeModel.findOne({ attendeeEmail });
     if (user) {
       const refferals = await AttendeeModel.find({
-        referredBy: user.refferalCode,
+        refferedBy: user.refferalCode,
       });
       const position = await this.getRefferalContestPosition(
         user.refferalCount || 0
@@ -53,8 +56,11 @@ class AttendeeService {
       return {
         firstName: user?.attendeeFirstName,
         lastName: user.attendeeLastName,
+        refferalCode: user?.refferalCode,
         refferals: refferals.length,
+        refferalCount: user.refferalCount,
         position,
+        status: true
       };
     }
     return null;
